@@ -233,6 +233,8 @@ This opens Prisma Studio at `http://localhost:5555` where you can:
 
 ## API Documentation
 
+**⚠️ Important:** All requests must use **JSON body** format (`Content-Type: application/json`). Form-data and URL-encoded formats are not supported.
+
 ### Endpoint: POST /identify
 
 Identifies or creates a contact based on email and/or phone number.
@@ -371,10 +373,16 @@ DB: Contact(id: 1, email: "john@example.com", linkPrecedence: "primary")
 
 ## Deployment
 
+### 🚀 Live Application
+
+**API Endpoint:** https://bitespeed-production.onrender.com/identify
+
+Health Check: https://bitespeed-production.onrender.com/health
+
 ### Prerequisites for Deployment
 
-- Deployed PostgreSQL database (AWS RDS, Google Cloud SQL, etc.)
-- Node.js hosting (Heroku, Railway, AWS Lambda, etc.)
+- Deployed PostgreSQL database (AWS RDS, Google Cloud SQL, Supabase, etc.)
+- Node.js hosting (Render.com, Heroku, Railway, AWS Lambda, etc.)
 - Environment variables configured
 
 ### Traditional Server Deployment (Ubuntu/Linux)
@@ -469,6 +477,40 @@ CMD ["npm", "start"]
 ```bash
 docker-compose up -d
 ```
+
+### Render.com Deployment (Recommended - Free Tier Available)
+
+Render.com provides the easiest deployment with automatic CI/CD from GitHub.
+
+#### Steps:
+
+1. **Visit Render.com**
+   - Go to https://render.com and sign up with GitHub
+
+2. **Create New Web Service**
+   - Click "New +"
+   - Select "Web Service"
+   - Connect your GitHub repository (Ayush0606/Bitespeed)
+
+3. **Configure Service**
+   - **Name:** bitespeed (or your choice)
+   - **Runtime:** Node
+   - **Build Command:** `npm install && npm run build && npx prisma migrate deploy`
+   - **Start Command:** `npm start`
+   - **Plan:** Free (or Starter for production)
+
+4. **Set Environment Variables**
+   - Add `DATABASE_URL`: Your Supabase PostgreSQL connection string
+   - Add `NODE_ENV`: `production`
+   - Add `PORT`: `3000`
+
+5. **Deploy**
+   - Click "Create Web Service"
+   - Render will automatically build and deploy from your GitHub repo
+
+6. **Automatic Redeployment**
+   - Every push to main branch automatically triggers a new deployment
+   - Check deployment status in Render dashboard
 
 ### Heroku Deployment
 
