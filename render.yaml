@@ -3,7 +3,7 @@ services:
     name: bitespeed
     env: node
     plan: free
-    buildCommand: npm install && npm run build && npx prisma migrate deploy
+    buildCommand: NODE_ENV=development npm install && npm run build && npx prisma migrate deploy
     startCommand: npm start
     envVars:
       - key: NODE_ENV
