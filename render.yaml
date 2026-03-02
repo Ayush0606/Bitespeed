@@ -3,11 +3,8 @@ services:
     name: bitespeed
     env: node
     plan: free
-    buildCommand: npm config set production false && npm install && npm run build && npx prisma migrate deploy
+    buildCommand: npm install && npm run build && npx prisma migrate deploy
     startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
     envVars:
       - key: NODE_ENV
         value: production
