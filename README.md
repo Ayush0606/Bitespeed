@@ -375,9 +375,21 @@ DB: Contact(id: 1, email: "john@example.com", linkPrecedence: "primary")
 
 ### 🚀 Live Application
 
-**API Endpoint:** https://bitespeed-production.onrender.com/identify
+**Production API Endpoint:** https://bitespeed-6acq.onrender.com
 
-Health Check: https://bitespeed-production.onrender.com/health
+**Test the Live API:**
+
+Health Check:
+```bash
+curl https://bitespeed-6acq.onrender.com/health
+```
+
+Identity Reconciliation:
+```bash
+curl -X POST https://bitespeed-6acq.onrender.com/identify \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","phoneNumber":"1234567890"}'
+```
 
 ### Prerequisites for Deployment
 
