@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Contact {
+  // Primary key: unique identifier for each contact
+  id Int @id @default(autoincrement())
+
+  // Contact information - at least one must be provided
+  phoneNumber String?
+  email       String?
+
+  // Linking and precedence information
+  // linkedId points to the primary contact when this is secondary
+  linkedId Int?
+  link     Contact? @relation("linkedContacts", fields: [linkedId], references: [id], onDelete: SetNull)
+
+  // All secondary contacts linked to this primary contact
+  linkedContacts Contact[] @relation("linkedContacts")
+
+  // Determines if this contact is primary or secondary
+  // Primary: the oldest contact in a chain
+  // Secondary: newer contacts merged into a primary
+  linkPrecedence String @default("primary") // "primary" | "secondary"
+
+  // Timestamps for tracking
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@index([phoneNumber])
+  @@index([email])
+  @@index([linkedId])
+  @@index([linkPrecedence])
+}
